@@ -270,6 +270,11 @@ body {
 	background: #f0f9ff;
 }
 
+#stats {
+	display: flex;
+	flex-direction: column;
+}
+
 /* desktop layout */
 @media (min-width: 768px) {
 	.grid-header {
@@ -277,6 +282,12 @@ body {
 		align-items: center;
 		justify-content: space-between;
 	}
+
+	#stats {
+		display: flex;
+		flex-direction: row;
+	}
+
 }
 
 
