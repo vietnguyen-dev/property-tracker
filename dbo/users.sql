@@ -1,0 +1,7 @@
+CREATE TABLE users (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	firebase_id VARCHAR(255) NOT NULL,
+	root_id VARCHAR(255) NOT NULL,
+	role_id INT NOT NULL,
+	FOREIGN KEY (role_id) REFERENCES roles(id)
+);

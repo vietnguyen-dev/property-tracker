@@ -1,0 +1,5 @@
+tmp/
+cert/
+
+.env
+server/.env

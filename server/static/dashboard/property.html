@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PropertyTrack - Property Details</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <nav class="shadow">
+      <div
+        class="container d-flex justify-content-between align-items-center pt-3 pb-3"
+      >
+        <div class="logo">PropertyTrack | Property</div>
+        <ul class="nav-links mt-2">
+          <li><a href="/dashboard/index.html">Home</a></li>
+          <li><a href="/dashboard/tenants.html">Tenants</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="dropdown">
+          <a
+            class="btn btn-secondary dropdown-toggle"
+            href="#"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Hello,
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-person"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"
+              />
+            </svg>
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a class="dropdown-item" href="/dashboard/teams.html">Teams</a>
+            </li>
+            <li><a class="dropdown-item" href="#">Subscription</a></li>
+            <li><a id="logout" class="dropdown-item" href="#">Logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <section class="container mt-5 mb-5">
+      <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="/dashboard/index.html">Home</a>
+          </li>
+          <li
+            class="breadcrumb-item active"
+            aria-current="page"
+            id="breadcrumb-address"
+          >
+            Property
+          </li>
+        </ol>
+      </nav>
+
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 id="property-address">Loading...</h1>
+        <span class="badge fs-6" id="property-status-badge">-</span>
+      </div>
+
+      <div class="row g-4 mb-4">
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-body">
+              <h6 class="card-subtitle mb-2 text-muted">Property Value</h6>
+              <h3 class="card-text text-primary" id="property-value">-</h3>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-body">
+              <h6 class="card-subtitle mb-2 text-muted">ROI</h6>
+              <h3 class="card-text text-success" id="property-roi">-</h3>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-body">
+              <h6 class="card-subtitle mb-2 text-muted">Status</h6>
+              <h3 class="card-text" id="property-status">-</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">Property Details</h5>
+        </div>
+        <div class="card-body">
+          <dl class="row mb-0">
+            <dt class="col-sm-3">Address</dt>
+            <dd class="col-sm-9" id="detail-address">-</dd>
+
+            <dt class="col-sm-3">Property ID</dt>
+            <dd class="col-sm-9" id="detail-id">-</dd>
+
+            <dt class="col-sm-3">Current Value</dt>
+            <dd class="col-sm-9" id="detail-value">-</dd>
+
+            <dt class="col-sm-3">Return on Investment</dt>
+            <dd class="col-sm-9" id="detail-roi">-</dd>
+
+            <dt class="col-sm-3">Occupancy Status</dt>
+            <dd class="col-sm-9" id="detail-status">-</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <a href="/dashboard/index.html" class="btn btn-outline-secondary"
+          >Back to Properties</a
+        >
+        <button class="btn btn-primary">Edit Property</button>
+        <button class="btn btn-danger">Delete Property</button>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-content">
+        <p>&copy; 2026 PropertyTrack. All rights reserved.</p>
+        <ul class="footer-links">
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </footer>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+    <script type="module" src="/dashboard/property.js"></script>
+    <script type="module" src="/dashboard/auth.js"></script>
+  </body>
+</html>
