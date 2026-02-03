@@ -1,7 +1,10 @@
 CREATE TABLE users (
 	id INT AUTO_INCREMENT PRIMARY KEY,
 	firebase_id VARCHAR(255) NOT NULL,
-	root_id VARCHAR(255) NOT NULL,
-	role_id INT NOT NULL,
-	FOREIGN KEY (role_id) REFERENCES roles(id)
+    	date_created DATETIME DEFAULT CURRENT_TIMESTAMP,
+    	date_updated DATETIME,
+	date_deleted DATETIME
 );
+
+CREATE VIEW vw_users AS
+SELECT id, firebase_id, date_created, date_updated FROM users WHERE date_deleted IS NULL;
