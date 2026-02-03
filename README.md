@@ -23,7 +23,9 @@ ACM (SSL/TLS Certificate)
 CloudFront (CDN)
     │
     ├──► Fargate (Go API)
-    │       └── /api/* routes, serves static frontend
+    │       ├── /api/* routes, serves static frontend
+    │       ├──► Redis Cloud (external cache)
+    │       └──► MySQL - DigitalOcean (external database)
     │
     └──► S3 Bucket (Property Images)
             └── House photos and media
@@ -38,6 +40,8 @@ CloudFront (CDN)
   - `/images/*` behavior → S3 (property images)
 - **S3** - Stores property house images and media uploads
 - **Fargate** - Runs the Go backend as a containerized service, serves the static frontend and handles all API requests
+- **MySQL (DigitalOcean)** - External managed database for persistent data storage
+- **Redis Cloud** - External cache layer for frequently accessed data and session management
 
 ### Deployment Steps
 
