@@ -5,15 +5,17 @@ let properties = [];
 
 const grid = new Grid({
   columns: [
-    "Address",
-    "City",
-    "State",
-    "Zip Code",
-    "Bought Price",
-    "Listed Price",
-    "Potential Sale Price",
-    "Potential Profit",
-    "Base Rental Value",
+    { name: "Address", width: "200px" },
+    { name: "City", width: "160px" },
+    { name: "State", width: "120px" },
+    { name: "Zip Code", width: "110px" },
+    { name: "Bought Price", width: "150px" },
+    { name: "Listed Price", width: "150px" },
+    { name: "Potential Sale Price", width: "210px" },
+    { name: "Potential Profit", width: "185px" },
+    { name: "Base Rental Value", width: "195px" },
+    { name: "Date Created", width: "210px" },
+    { name: "Date Updated", width: "210px" },
   ],
   data: [],
   search: true,
@@ -59,6 +61,8 @@ window.addEventListener("load", async () => {
         formatPrice(p.potential_sale_price),
         formatPrice(p.potential_profit),
         formatPrice(p.base_rental_value),
+        p.date_created || "-",
+        p.date_updated || "-",
       ]),
     })
     .forceRender();
