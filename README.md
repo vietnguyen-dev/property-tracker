@@ -17,30 +17,35 @@ A real estate property management web application that helps users track their p
 Route 53 (DNS)
     │
     ▼
+ACM (SSL/TLS Certificate)
+    │
+    ▼
 CloudFront (CDN)
     │
-    ├──► S3 Bucket (Static Frontend)
-    │       └── HTML, CSS, JS, images
+    ├──► Fargate (Go API)
+    │       └── /api/* routes, serves static frontend
     │
-    └──► Fargate (Go API)
-            └── /api/* routes
+    └──► S3 Bucket (Property Images)
+            └── House photos and media
 ```
 
 ### Components
 
 - **Route 53** - DNS management and domain routing
-- **CloudFront** - CDN distribution with two origins:
-  - Default behavior → S3 (static assets)
-  - `/api/*` behavior → Fargate (backend API)
-- **S3** - Hosts the static frontend (`server/static/` contents)
-- **Fargate** - Runs the Go backend as a containerized service, handles all API requests
+- **ACM** - SSL/TLS certificate provisioning and management for HTTPS
+- **CloudFront** - CDN distribution with ACM certificate attached:
+  - Default behavior → Fargate (Go API and static frontend)
+  - `/images/*` behavior → S3 (property images)
+- **S3** - Stores property house images and media uploads
+- **Fargate** - Runs the Go backend as a containerized service, serves the static frontend and handles all API requests
 
 ### Deployment Steps
 
-1. **S3**: Upload `server/static/` contents to an S3 bucket with static website hosting enabled
-2. **Fargate**: Build and push the Go server Docker image to ECR, deploy as a Fargate service behind an ALB
-3. **CloudFront**: Create a distribution with S3 as the default origin and the Fargate ALB as the `/api/*` origin
-4. **Route 53**: Point your domain to the CloudFront distribution
+1. **ACM**: Request an SSL/TLS certificate for your domain in us-east-1 (required for CloudFront)
+2. **S3**: Create a bucket for property image uploads
+3. **Fargate**: Build and push the Go server Docker image to ECR, deploy as a Fargate service behind an ALB
+4. **CloudFront**: Create a distribution with the ACM certificate, Fargate ALB as the default origin and S3 as the `/images/*` origin
+5. **Route 53**: Point your domain to the CloudFront distribution
 
 ## Project Structure
 
