@@ -1,157 +1,21 @@
 import { Grid } from "https://cdn.jsdelivr.net/npm/gridjs/dist/gridjs.module.js";
 
 const propertyGrid = document.getElementById("property-grid");
-
-// Property data with IDs
-const properties = [
-  {
-    id: 10,
-    address: "123 Main Street",
-    value: "$450,000",
-    roi: "8.2%",
-    status: "Occupied",
-  },
-  {
-    id: 2,
-    address: "456 Oak Avenue",
-    value: "$320,000",
-    roi: "6.8%",
-    status: "Vacant",
-  },
-  {
-    id: 3,
-    address: "789 Park Lane",
-    value: "$580,000",
-    roi: "9.1%",
-    status: "Occupied",
-  },
-  {
-    id: 4,
-    address: "321 Elm Drive",
-    value: "$275,000",
-    roi: "5.5%",
-    status: "Occupied",
-  },
-  {
-    id: 5,
-    address: "654 Maple Court",
-    value: "$410,000",
-    roi: "7.3%",
-    status: "Under Renovation",
-  },
-  {
-    id: 6,
-    address: "100 Pine Street",
-    value: "$390,000",
-    roi: "7.8%",
-    status: "Occupied",
-  },
-  {
-    id: 7,
-    address: "222 Cedar Lane",
-    value: "$510,000",
-    roi: "8.5%",
-    status: "Vacant",
-  },
-  {
-    id: 8,
-    address: "333 Birch Road",
-    value: "$295,000",
-    roi: "6.2%",
-    status: "Occupied",
-  },
-  {
-    id: 9,
-    address: "444 Willow Way",
-    value: "$620,000",
-    roi: "9.4%",
-    status: "Occupied",
-  },
-  {
-    id: 10,
-    address: "555 Spruce Ave",
-    value: "$340,000",
-    roi: "5.9%",
-    status: "Under Renovation",
-  },
-  {
-    id: 333,
-    address: "123 Main Street",
-    value: "$450,000",
-    roi: "8.2%",
-    status: "Occupied",
-  },
-  {
-    id: 2,
-    address: "456 Oak Avenue",
-    value: "$320,000",
-    roi: "6.8%",
-    status: "Vacant",
-  },
-  {
-    id: 3,
-    address: "789 Park Lane",
-    value: "$580,000",
-    roi: "9.1%",
-    status: "Occupied",
-  },
-  {
-    id: 4,
-    address: "321 Elm Drive",
-    value: "$275,000",
-    roi: "5.5%",
-    status: "Occupied",
-  },
-  {
-    id: 5,
-    address: "654 Maple Court",
-    value: "$410,000",
-    roi: "7.3%",
-    status: "Under Renovation",
-  },
-  {
-    id: 6,
-    address: "100 Pine Street",
-    value: "$390,000",
-    roi: "7.8%",
-    status: "Occupied",
-  },
-  {
-    id: 7,
-    address: "222 Cedar Lane",
-    value: "$510,000",
-    roi: "8.5%",
-    status: "Vacant",
-  },
-  {
-    id: 8,
-    address: "333 Birch Road",
-    value: "$295,000",
-    roi: "6.2%",
-    status: "Occupied",
-  },
-  {
-    id: 9,
-    address: "444 Willow Way",
-    value: "$620,000",
-    roi: "9.4%",
-    status: "Occupied",
-  },
-  {
-    id: 10,
-    address: "555 Spruce Ave",
-    value: "$340,000",
-    roi: "5.9%",
-    status: "Under Renovation",
-  },
-];
-
-// Store in localStorage for property.js to access
-localStorage.setItem("properties", JSON.stringify(properties));
+let properties = [];
 
 const grid = new Grid({
-  columns: ["Address", "Value", "ROI", "Status"],
-  data: properties.map((p) => [p.address, p.value, p.roi, p.status]),
+  columns: [
+    "Address",
+    "City",
+    "State",
+    "Zip Code",
+    "Bought Price",
+    "Listed Price",
+    "Potential Sale Price",
+    "Potential Profit",
+    "Base Rental Value",
+  ],
+  data: [],
   search: true,
   fixedHeader: true,
   sort: true,
@@ -169,24 +33,77 @@ grid.on("rowClick", (_, row) => {
   }
 });
 
-window.addEventListener("load", () => {
-  const gridHead = propertyGrid.querySelector(".gridjs-head");
-  if (gridHead) {
-    const buttonsDiv = document.createElement("div");
-    buttonsDiv.className = "d-flex gap-2 ms-auto";
-    buttonsDiv.innerHTML = `
-      <button type="button" class="btn btn-primary" id="btn-add-property" data-bs-toggle="modal" data-bs-target="#addPropertyModal">Add Property</button>
-    `;
+grid.render(propertyGrid);
 
-    const searchWrapper = gridHead.querySelector(".gridjs-search");
-    if (searchWrapper) {
-      searchWrapper.style.display = "flex";
-      searchWrapper.style.alignItems = "center";
-      searchWrapper.style.gap = "1rem";
-      searchWrapper.style.width = "100%";
-      searchWrapper.appendChild(buttonsDiv);
-    }
-  }
+window.addEventListener("load", async () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (!user || !user.id) return;
+
+  const res = await fetch(`/api/properties?user_id=${user.id}`);
+  properties = (await res.json()) || [];
+
+  localStorage.setItem("properties", JSON.stringify(properties));
+
+  const formatPrice = (val) =>
+    val != null ? `$${Number(val).toLocaleString("en-US", { minimumFractionDigits: 2 })}` : "-";
+
+  grid
+    .updateConfig({
+      data: properties.map((p) => [
+        p.address,
+        p.city,
+        p.state,
+        p.zip_code,
+        formatPrice(p.bought_price),
+        formatPrice(p.listed_price),
+        formatPrice(p.potential_sale_price),
+        formatPrice(p.potential_profit),
+        formatPrice(p.base_rental_value),
+      ]),
+    })
+    .forceRender();
 });
 
-grid.render(propertyGrid);
+function showError(message) {
+  document.getElementById("errorModalMessage").textContent = message;
+  const errorModal = new bootstrap.Modal(document.getElementById("errorModal"));
+  errorModal.show();
+}
+
+document.getElementById("addPropertyForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (!user || !user.id) {
+    showError("You must be logged in to add a property.");
+    return;
+  }
+
+  const body = {
+    user_id: user.id,
+    address: document.getElementById("propertyAddress").value,
+    address_two: document.getElementById("propertyAddressTwo").value || null,
+    city: document.getElementById("propertyCity").value,
+    state: document.getElementById("propertyState").value,
+    zip_code: document.getElementById("propertyZipCode").value,
+  };
+
+  try {
+    const res = await fetch("/api/properties", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+
+    if (!res.ok) {
+      const text = await res.text();
+      showError(text || "Failed to create property.");
+      return;
+    }
+
+    const data = await res.json();
+    window.location.href = `/dashboard/property.html?id=${data.id}`;
+  } catch (err) {
+    showError("Network error. Please try again.");
+  }
+});

@@ -63,7 +63,10 @@
     </nav>
 
     <section class="container mt-5 mb-5">
-      <h1 id="intro">Welcome,</h1>
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 id="intro">Welcome,</h1>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPropertyModal">Add Property</button>
+      </div>
       <div id="property-grid" class="mb-4"></div>
       <div id="stats" class="d-flex gap-5">
         <div class="card" style="width: 18rem">
@@ -126,54 +129,23 @@
             <form id="addPropertyForm">
               <div class="mb-3">
                 <label for="propertyAddress" class="form-label">Address</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="propertyAddress"
-                  required
-                />
+                <input type="text" class="form-control" id="propertyAddress" required />
               </div>
               <div class="mb-3">
-                <label for="propertyAddress" class="form-label"
-                  >Address Line 2</label
-                >
-                <input
-                  type="text"
-                  class="form-control"
-                  id="propertyAddress"
-                  required
-                />
+                <label for="propertyAddressTwo" class="form-label">Address Line 2</label>
+                <input type="text" class="form-control" id="propertyAddressTwo" />
               </div>
               <div class="mb-3">
-                <label for="propertyValue" class="form-label">Value</label>
-                <div class="input-group">
-                  <span class="input-group-text">$</span>
-                  <input
-                    type="number"
-                    class="form-control"
-                    id="propertyValue"
-                    required
-                  />
-                </div>
+                <label for="propertyCity" class="form-label">City</label>
+                <input type="text" class="form-control" id="propertyCity" required />
               </div>
               <div class="mb-3">
-                <label for="propertyROI" class="form-label">ROI (%)</label>
-                <input
-                  type="number"
-                  step="0.1"
-                  class="form-control"
-                  id="propertyROI"
-                  required
-                />
+                <label for="propertyState" class="form-label">State</label>
+                <input type="text" class="form-control" id="propertyState" required />
               </div>
               <div class="mb-3">
-                <label for="propertyStatus" class="form-label">Status</label>
-                <select class="form-select" id="propertyStatus" required>
-                  <option value="">Select status...</option>
-                  <option value="Occupied">Occupied</option>
-                  <option value="Vacant">Vacant</option>
-                  <option value="Under Renovation">Under Renovation</option>
-                </select>
+                <label for="propertyZipCode" class="form-label">Zip Code</label>
+                <input type="text" class="form-control" id="propertyZipCode" required />
               </div>
             </form>
           </div>
@@ -192,6 +164,24 @@
             >
               Add Property
             </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title text-danger" id="errorModalLabel">Error</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p id="errorModalMessage">Something went wrong. Please try again.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           </div>
         </div>
       </div>

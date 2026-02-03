@@ -12,13 +12,28 @@ const auth = getAuth(app);
 
 const logout = document.getElementById("logout");
 
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, async (user) => {
   if (user) {
-    console.log("User logged in:", user);
+    // Ensure user data is in localStorage
+    if (!localStorage.getItem("user")) {
+      const res = await fetch(`/api/users?firebase_id=${user.uid}`);
+      const data = await res.json();
+      const userData = {
+        id: data.id,
+        name: user.displayName,
+        email: user.email,
+        photo: user.photoURL,
+        uid: user.uid,
+      };
+      localStorage.setItem("user", JSON.stringify(userData));
+    }
+
     const intro = document.getElementById("intro");
-    intro.innerHTML = `Hello, ${user.displayName}`;
+    if (intro) {
+      intro.innerHTML = `Hello, ${user.displayName}`;
+    }
   } else {
-    console.log("No user logged in");
+    localStorage.removeItem("user");
     window.location.href = "/index.html";
   }
 });

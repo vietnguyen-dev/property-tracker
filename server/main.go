@@ -13,5 +13,6 @@ func main() {
 	http.Handle("/", fs)
 	http.HandleFunc("/api/users", data.Users)
 	http.HandleFunc("/api/roles", data.Roles)
+	http.HandleFunc("/api/properties", data.Properties)
 	http.ListenAndServe(":8080", nil)
 }
